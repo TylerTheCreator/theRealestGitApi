@@ -3,6 +3,8 @@ exports.apiKey = '17b4bf456ad0fb7e6949ea20abe0d426f784b450';
 
 },{}],2:[function(require,module,exports){
 var apiKey = require('./../.env').apiKey;
+var showPicture = require('./../js/git-interface.js').showPicture;
+
 
 $(document).ready(function() {
   $('#showUser').click(function(e) {
@@ -12,27 +14,29 @@ $(document).ready(function() {
     var repoInfo  = 'https://api.github.com/users/' + username + '/repos';
     $('#username').val("");
       $.getJSON(info + '?access_token=' + apiKey + '&per_page=90').then(function(response){
-        $('.profile').append("<img src=" + response.avatar_url + "/>");
-        $('.profile').append("<p>" +'UserName: ' + username + "</p>");
+        $('.account').append("<img src=" + response.avatar_url + "/>");
+        // $('.account').append("<p>" +'UserName: ' + username + "</p>");
+        $('.account').append("<p>" +"FullName: " + response.name + "</p>");
+        $('.account').append("<p>" +"Location: " + response.location+ "</p>");
       }).fail(function(error){
         console.log(error.responseJSON.message);
       });
-    $.getJSON(repoInfo + '?access_token=' + apiKey + '').then(function(repo){
+    $.getJSON(repoInfo + '?access_token=' + apiKey).then(function(repo){
       for (var c = 0; c <= repo.length; c++) {
         if (repo[c].name !== null || repo[c].name !== "") {
-          $('.profile').append(" <Br>Repository: " + repo[c].name);
+          $('.account').append(" <Br>Repository: " + repo[c].name);
         } else {
-          $('.profile').append(" <Br>Repository: N/A");
+          $('.account').append(" <Br>Repository: N/A");
         }
         if (repo[c].description !== null ||repo[c].description !== "") {
-          $('.profile').append(" <Br>Description: " + repo[c].description);
+          $('.account').append(" <Br>Description: " + repo[c].description);
         } else {
-          $('.profile').append(" <Br>Description: N/A");
+          $('.account').append(" <Br>Description: N/A");
         }
         if (repo[c].description !== null) {
-          $('.profile').append(" <Br>Languange: " + repo[c].language + "<hr>");
+          $('.account').append(" <br>Languange: " + repo[c].language + "<hr>");
         } else {
-          $('.profile').append(" <Br>Languange: N/a <hr>");
+          $('.account').append(" <br>Languange: N/a <hr>");
         }
       }
     }).fail(function(error){
@@ -41,4 +45,6 @@ $(document).ready(function() {
   });
 });
 
-},{"./../.env":1}]},{},[2]);
+},{"./../.env":1,"./../js/git-interface.js":2}],3:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"./../.env":1,"./../js/git-interface.js":2,"dup":2}]},{},[3]);
